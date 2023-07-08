@@ -129,6 +129,9 @@ export default {
     isCartOpen() {
       return cartState.open;
     },
+    products() {
+      return cartState.items;
+    },
   },
   methods: {
     toggleCart() {
