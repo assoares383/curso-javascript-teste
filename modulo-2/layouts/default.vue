@@ -124,6 +124,11 @@ import Cart from '@/components/Cart';
 
 export default {
   components: { Cart },
+  data() {
+    return {
+      errorMessage: '',
+    };
+  },
   computed: {
     isCartOpen() {
       return this.$cart.getState().open;
@@ -131,8 +136,21 @@ export default {
     products() {
       return this.$cart.getState().items;
     },
+    hasError() {
+      return this.errorMessage !== '';
+    },
   },
   methods: {
+    async checkout({ email }) {
+      try {
+        const products = this.$cart.getState().items;
+        this.$axios.setHeader('email', email);
+        await this.$axios.post('/api/order', { products });
+        this.$cart.clearProducts();
+      } catch (error) {
+        this.errorMessage = 'Fail to save order';
+      }
+    },
     toggleCart() {
       if (this.$cart.getState().open) {
         this.$cart.close();
