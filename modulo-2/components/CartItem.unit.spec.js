@@ -94,7 +94,6 @@ describe('CartItem', () => {
   it('should display a button to remove item from cart', () => {
     const { wrapper } = mountCartItem();
     const button = wrapper.find('[data-testid="remove-button"]');
-    // const spy = jest.spyOn(cartManager, 'removeProduct');
 
     expect(button.exists()).toBe(true);
   });

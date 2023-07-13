@@ -9,13 +9,14 @@ describe('Default Layout', () => {
       mocks: {
         $cart: new CartManager(),
       },
-      stub: {
+      stubs: {
         Nuxt: true,
       },
     });
 
     return { wrapper };
   };
+
   it('should mount Cart', () => {
     const { wrapper } = mountLayout();
     expect(wrapper.findComponent(Cart).exists()).toBe(true);
