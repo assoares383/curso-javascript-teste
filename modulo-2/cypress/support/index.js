@@ -1,3 +1,5 @@
+import './commands';
+
 // eslint-disable-next-line no-undef
 Cypress.on('window:before:load', (win) => {
   win.handleFromCypress = function (request) {
