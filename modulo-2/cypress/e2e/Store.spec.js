@@ -31,19 +31,26 @@ context('Store', () => {
         .should('have.value', 'Some text here');
     });
 
-    it.only('should type in the search field', () => {
+    it('should return 1 product when "Computador Novo" is used as search term', () => {
       server.create('product', {
         title: 'Computador Novo',
       });
-
       server.createList('product', 10);
 
       cy.window().visit('http://localhost:3000');
-
       cy.window().get('input[type="search"]').type('Computador Novo');
-
       cy.get('[data-testid="search-form"]').submit();
       cy.get('[data-testid="product-card"]').should('have.length', 1);
+    });
+
+    it('should not return any product', () => {
+      server.createList('product', 10);
+
+      cy.window().visit('http://localhost:3000');
+      cy.window().get('input[type="search"]').type('Computador Novo');
+      cy.get('[data-testid="search-form"]').submit();
+      cy.get('[data-testid="product-card"]').should('have.length', 0);
+      cy.get('body').contains('0 Products');
     });
   });
 });
