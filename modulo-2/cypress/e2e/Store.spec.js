@@ -1,7 +1,9 @@
 /* eslint-disable no-undef */
+/// <reference types="cypress" />
+
 import { makeServer } from '../../miragejs/server';
 
-describe('Store', () => {
+context('Store', () => {
   let server;
 
   beforeEach(() => {
@@ -13,9 +15,35 @@ describe('Store', () => {
   });
 
   it('should display the store', () => {
-    cy.window().visit('http://localhost:3000');
+    cy.visit('http://localhost:3000');
 
     cy.get('body').contains('Brand');
     cy.get('body').contains('Wrist Watch');
+  });
+
+  context('Store > Search for Products', () => {
+    it('should type in the search field', () => {
+      cy.window().visit('http://localhost:3000');
+
+      cy.window()
+        .get('input[type="search"]')
+        .type('Some text here')
+        .should('have.value', 'Some text here');
+    });
+
+    it.only('should type in the search field', () => {
+      server.create('product', {
+        title: 'Computador Novo',
+      });
+
+      server.createList('product', 10);
+
+      cy.window().visit('http://localhost:3000');
+
+      cy.window().get('input[type="search"]').type('Computador Novo');
+
+      cy.get('[data-testid="search-form"]').submit();
+      cy.get('[data-testid="product-card"]').should('have.length', 1);
+    });
   });
 });
