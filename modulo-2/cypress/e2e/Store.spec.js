@@ -97,12 +97,12 @@ context('Store', () => {
       gid('cart-item').should('have.length', 0);
     });
 
-    it.only('should display quantity 1 when product is added to cart', () => {
+    it('should display quantity 1 when product is added to cart', () => {
       cy.addToCart({ index: 1 });
       gid('quantity').contains(1);
     });
 
-    it.only('should increase quantity when button + gets clicked', () => {
+    it('should increase quantity when button + gets clicked', () => {
       cy.addToCart({ index: 1 });
       gid('+').click();
       gid('quantity').contains(2);
@@ -110,7 +110,7 @@ context('Store', () => {
       gid('quantity').contains(3);
     });
 
-    it.only('should decrease quantity when button - gets clicked', () => {
+    it('should decrease quantity when button - gets clicked', () => {
       cy.addToCart({ index: 1 });
       gid('+').click();
       gid('+').click();
@@ -121,7 +121,7 @@ context('Store', () => {
       gid('quantity').contains(1);
     });
 
-    it.only('should not decrease below zero when button - gets clicked', () => {
+    it('should not decrease below zero when button - gets clicked', () => {
       cy.addToCart({ index: 1 });
       gid('-').click();
       gid('-').click();
