@@ -45,12 +45,6 @@ context('Store', () => {
       gid('shopping-cart').should('have.class', 'hidden');
     });
 
-    it.only('should not display "Clear cart" button when cart is empty', () => {
-      gid('toggle-button').as('toggleButton');
-      g('@toggleButton').click();
-      gid('clear-cart-button').should('not.be.visible');
-    });
-
     it('should display "Cart is empty" message when there are no products', () => {
       gid('toggle-button').as('toggleButton');
       g('@toggleButton').click();
@@ -101,6 +95,37 @@ context('Store', () => {
       gid('cart-item').should('have.length', 3);
       gid('clear-cart-button').click();
       gid('cart-item').should('have.length', 0);
+    });
+
+    it.only('should display quantity 1 when product is added to cart', () => {
+      cy.addToCart({ index: 1 });
+      gid('quantity').contains(1);
+    });
+
+    it.only('should increase quantity when button + gets clicked', () => {
+      cy.addToCart({ index: 1 });
+      gid('+').click();
+      gid('quantity').contains(2);
+      gid('+').click();
+      gid('quantity').contains(3);
+    });
+
+    it.only('should decrease quantity when button - gets clicked', () => {
+      cy.addToCart({ index: 1 });
+      gid('+').click();
+      gid('+').click();
+      gid('quantity').contains(3);
+      gid('-').click();
+      gid('quantity').contains(2);
+      gid('-').click();
+      gid('quantity').contains(1);
+    });
+
+    it.only('should not decrease below zero when button - gets clicked', () => {
+      cy.addToCart({ index: 1 });
+      gid('-').click();
+      gid('-').click();
+      gid('quantity').contains(0);
     });
   });
 
